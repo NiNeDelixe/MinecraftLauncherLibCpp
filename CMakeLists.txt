@@ -2,6 +2,14 @@
 # укажите здесь логику для конкретного проекта.
 #
 cmake_minimum_required (VERSION 3.8)
+
+set(vcpkg "C:\\Users\\alkor\\source\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake")
+if(NOT CMAKE_TOOLCHAIN_FILE AND EXISTS "${vcpkg}")
+  set(CMAKE_TOOLCHAIN_FILE "${vcpkg}"
+      CACHE FILEPATH "Vcpkg toolchain file")
+  message(STATUS "vcpkg toolchain found: ${CMAKE_TOOLCHAIN_FILE}")
+endif()
+
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "mclauncherlib_tests")
 
 
@@ -14,7 +22,7 @@ endif()
 project ("MinecraftLauncherLib")
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable(MinecraftLauncherLib "include/MinecraftLauncherLib.h" "include/MinecraftLauncherLib/VersionProfile.h" "include/MinecraftLauncherLib/UserProfile.h" "include/MinecraftLauncherLib/JavaArguments.h" "test/main.cpp" "include/MinecraftLauncherLib/Argument.h" "include/MinecraftLauncherLib/Types/Vector.h" "include/MinecraftLauncherLib/Utils/Macros.h" "include/MinecraftLauncherLib/Utils/PathUtils.h" "include/MinecraftLauncherLib/Utils/StringUtils.h"  "include/MinecraftLauncherLib/Utils/MemoryUtils.h" "include/MinecraftLauncherLib/Arguments.h" "include/MinecraftLauncherLib/UserArguments.h" "test/StringUtilsTest.cpp" "include/MinecraftLauncherLib/Libraries.h" "include/MinecraftLauncherLib/SingleLibrary.h" "src/SingleLibrary.cpp")
+add_executable(MinecraftLauncherLib "include/MinecraftLauncherLib.h" "include/MinecraftLauncherLib/VersionProfile.h" "include/MinecraftLauncherLib/UserProfile.h" "include/MinecraftLauncherLib/JavaArguments.h" "test/main.cpp" "include/MinecraftLauncherLib/Argument.h" "include/MinecraftLauncherLib/Types/Vector.h" "include/MinecraftLauncherLib/Utils/Macros.h" "include/MinecraftLauncherLib/Utils/PathUtils.h" "include/MinecraftLauncherLib/Utils/StringUtils.h"  "include/MinecraftLauncherLib/Utils/MemoryUtils.h" "include/MinecraftLauncherLib/Arguments.h" "include/MinecraftLauncherLib/UserArguments.h" "include/MinecraftLauncherLib/Libraries.h" "include/MinecraftLauncherLib/SingleLibrary.h" "src/SingleLibrary.cpp" "include/MinecraftLauncherLib/CommandLine.h" "src/CommandLine.cpp")
 #add_executable(MinecraftLauncherLib "src/MemoryUtils.cpp" "src/PathUtils.cpp" "src/StringUtils.cpp")
 
 #target_compile_features(${TARGET_NAME} PRIVATE cxx_std_17)

@@ -9,6 +9,7 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	class UserProfile
 	{
+	private:
 		std::u32string username;
 
 		std::u32string uuid;

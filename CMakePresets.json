@@ -25,7 +25,6 @@
         "value": "x64",
         "strategy": "external"
       },
-      "toolchainFile": "C:\\Users\\alkor\\source\\github\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
