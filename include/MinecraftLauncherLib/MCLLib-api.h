@@ -8,7 +8,7 @@
 #		define MCLLIB_API
 #	endif
 #else
-#	if (defined(WIN32) || defined(_WIN32)) && defined(MCLLIB_DLL)
+#	if (defined(WIN32) || defined(_WIN32)) && defined(MCLLIB_DLL_BUILD)
 #		define MCLLIB_API __declspec(dllimport)
 #	else
 #		define MCLLIB_API

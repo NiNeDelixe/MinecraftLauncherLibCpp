@@ -9,6 +9,8 @@
 #include <codecvt>
 #include <string>
 
+#include <boost/locale.hpp>
+
 namespace MCLCPPLIB_NAMESPACE
 {
 	namespace utils

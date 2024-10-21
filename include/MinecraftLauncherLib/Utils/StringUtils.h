@@ -12,7 +12,7 @@ namespace MCLCPPLIB_NAMESPACE
 		namespace string
 		{
 			template<typename STR>
-			std::vector<STR> split(const STR& s, const char& seperator, const int& count = 0)
+			MCLLIB_API std::vector<STR> split(const STR& s, const char& seperator, const int& count = 0)
 			{
 				std::vector<STR> output;
 				STR::value_type str_seperator = static_cast<STR::value_type>(seperator);
@@ -51,7 +51,7 @@ namespace MCLCPPLIB_NAMESPACE
 
 
 			template<typename REPL, typename FROM, typename TO>
-			void replace(REPL& replace, const FROM& from, const TO& to)
+			MCLLIB_API void replace(REPL& replace, const FROM& from, const TO& to)
 			{
 				if (from.empty())
 					return;
@@ -89,7 +89,7 @@ namespace MCLCPPLIB_NAMESPACE
 			}
 
 			template<typename REPL>
-			void replace(REPL& replace, const REPL& from, const REPL& to)
+			MCLLIB_API void replace(REPL& replace, const REPL& from, const REPL& to)
 			{
 				size_t start_pos = 0;
 				size_t found_pos = 0;

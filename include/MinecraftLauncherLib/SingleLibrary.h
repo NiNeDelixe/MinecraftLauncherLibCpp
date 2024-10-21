@@ -4,6 +4,7 @@
 #include "MinecraftLauncherLib/MCLLib-api.h"
 
 #include <filesystem>
+#include <type_traits>
 
 #include "MinecraftLauncherLib/Utils/StringUtils.h"
 
@@ -46,17 +47,21 @@ namespace MCLCPPLIB_NAMESPACE
 			}
 			else
 			{
-				fileend = static_cast<STR>(std::string("jar"));
+				//STR("jar")
+				fileend = STR({ 0x6A, 0x61, 0x72 });
 			}
 			// construct a filename with the remaining parts
 
-			STR filename = libname + static_cast<STR>(std::string("-")) + version;
+			//STR("-")
+			STR filename = libname + STR({ 0x2D }) + version;
 
 			for (size_t i = 3; i < parts.size(); ++i)
 			{
-				filename += static_cast<STR>(std::string("-")) + parts[i];
+				//STR("-")
+				filename += STR({ 0x2D }) + parts[i];
 			}
-			filename += static_cast<STR>(std::string(".")) + fileend;
+			//STR(".")
+			filename += STR({ 0x2E }) + fileend;
 
 			libpath = libpath / libname / version / filename;
 

@@ -57,9 +57,20 @@ BOOST_AUTO_TEST_CASE(StringSplitTest1)
 {
     std::wstring sep_w = L"ass:ass";
 
-    std::vector<std::wstring> result = MCLCPPLIB_NAMESPACE::utils::string::split(sep_w, ':', 0);
+    auto result = MCLCPPLIB_NAMESPACE::utils::string::split(sep_w, ':', 0);
     const std::vector<std::wstring> reference_w = { L"ass", L"ass"};
     
+    BOOST_CHECK_EQUAL_COLLECTIONS(reference_w[0].begin(), reference_w[0].end(), result[0].begin(), result[0].end());
+    BOOST_CHECK_EQUAL_COLLECTIONS(reference_w[1].begin(), reference_w[1].end(), result[1].begin(), result[1].end());
+}
+
+BOOST_AUTO_TEST_CASE(StringSplitTest2)
+{
+    std::string sep_w = "ass:ass";
+
+    auto result = MCLCPPLIB_NAMESPACE::utils::string::split(sep_w, ':', 0);
+    const std::vector<std::string> reference_w = { "ass", "ass" };
+
     BOOST_CHECK_EQUAL_COLLECTIONS(reference_w[0].begin(), reference_w[0].end(), result[0].begin(), result[0].end());
     BOOST_CHECK_EQUAL_COLLECTIONS(reference_w[1].begin(), reference_w[1].end(), result[1].begin(), result[1].end());
 }

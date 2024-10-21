@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "dependencies": [
+    "boost-test",
+    "liblzma",
+    "nlohmann-json",
+    "boost-locale"
+  ]
+}
