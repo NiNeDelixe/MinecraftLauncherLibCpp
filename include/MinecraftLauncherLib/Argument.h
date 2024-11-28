@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <string>
 #include <vector>
+#include <optional>
 
 #include "MinecraftLauncherLib/Types/Vector.h"
 
@@ -18,8 +19,14 @@ namespace MCLCPPLIB_NAMESPACE
 		{
 			struct Argument
 			{
+				Argument(const std::u32string& key, std::optional<std::u32string> value)
+					: key(key), value(value) {}
+
+				Argument(const std::pair<std::u32string, std::optional<std::u32string>> arg)
+					: Argument(arg.first, arg.second) {}
+
 				std::u32string key;
-				std::variant<std::u32string, std::filesystem::path, types::Vector<std::filesystem::path>> value;
+				std::optional<std::u32string> value;
 			};
 		}
 	}

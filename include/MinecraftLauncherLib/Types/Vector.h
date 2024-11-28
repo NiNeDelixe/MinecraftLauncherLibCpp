@@ -77,9 +77,106 @@ namespace MCLCPPLIB_NAMESPACE
 		template<typename T>
 		class MCLLibVector
 		{
+        private:
+            template <typename ITERATOR>
+            class Iterator {
+                friend class MCLLibVector;
+
+            public:
+                typedef ITERATOR iterator_type;
+                typedef std::random_access_iterator_tag iterator_category;
+                typedef iterator_type value_type;
+                typedef iterator_type& reference;
+                typedef iterator_type* pointer;
+                typedef ptrdiff_t difference_type;
+
+            private:
+                Iterator(ITERATOR* ptr) : m_ptr(ptr) {}
+
+            public:
+                Iterator(const Iterator& other)
+                    : m_ptr(other.m_ptr) {}
+
+                Iterator& operator++() {
+                    m_ptr++;
+                    return *this;
+                }
+
+                Iterator operator++(int) {
+                    Iterator<ITERATOR> temp = *this;
+                    m_ptr++;
+                    return temp;
+                }
+
+                Iterator operator+(const size_t index) noexcept {
+                    for (size_t i = 0; i < index; ++i)
+                    {
+                        ++this->value;
+                    }
+
+                    return *this;
+                }
+                Iterator operator-(const size_t index) noexcept {
+                    for (size_t i = index - 1; i >= 0; --i)
+                    {
+                        --this->value;
+                    }
+
+                    return *this;
+                }
+
+                Iterator& operator+=(const size_t index) noexcept {
+                    *this = *this + index;
+                    return *this;
+                }
+                Iterator& operator-=(const size_t index) noexcept {
+                    *this = *this - index;
+                    return *this;
+                }
+
+                Iterator& operator[](const size_t index) noexcept { return this + index; }
+
+                Iterator::reference& operator*() const {
+                    return *m_ptr;
+                }
+
+                Iterator::pointer* operator->() const {
+                    return m_ptr;
+                }
+
+                bool operator==(const Iterator& other) const {
+                    return m_ptr == other.m_ptr;
+                }
+
+                bool operator!=(const Iterator& other) const {
+                    return m_ptr != other.m_ptr;
+                }
+
+                bool operator>(const Iterator& other) const noexcept { return this->value > other.value; }
+                bool operator>=(const Iterator& other) const noexcept { return !(this < other); }
+                bool operator<(const Iterator& other) const noexcept { return this->value < other.value; }
+                bool operator<=(const Iterator& other) const noexcept { return !(this > other); }
+
+            private:
+                iterator_type* m_ptr;
+            };
+
+        private:
+            void reallocate(size_t new_capacity) {
+                T* new_data = static_cast<T*>(::operator new(new_capacity * sizeof(T)));
+                for (size_t i = 0; i < m_size; ++i) {
+                    new (new_data + i) T(std::move(data[i])); // Перемещаем существующие элементы
+                    data[i].~T(); // Вызываем деструкторы для старых объектов
+                }
+                ::operator delete(data); // Освобождаем старую память
+                data = new_data;
+                m_capacity = new_capacity;
+            }
+
         public:
             MCLLibVector()
-            {
+                : data(nullptr), m_size(0), m_capacity(0) {}
+            /*{
                 do 
                 {
                     (this->data_struct).data = static_cast<T*>(malloc((1) * sizeof(*(this->data_struct).data))); 
@@ -91,9 +188,12 @@ namespace MCLCPPLIB_NAMESPACE
                     (this->data_struct).size = 0;
                     (this->data_struct).capacity = (1);
                 } while (0);
-            }
+            }*/
 
-            MCLLibVector(size_t size)
+            explicit MCLLibVector(size_t size)
+                : data(static_cast<T*>(::operator new(size * sizeof(T)))), m_size(0), m_capacity(size) {}
+
+            /*MCLLibVector(size_t size)
             {
                 do 
                 {
@@ -106,27 +206,29 @@ namespace MCLCPPLIB_NAMESPACE
                     (this->data_struct).size = 0;
                     (this->data_struct).capacity = (size);
                 } while (0);
-            }
+            }*/
 
             ~MCLLibVector()
             {
-                do 
+                clear();
+                ::operator delete(data);
+                /*do 
                 {
                     (this->data_struct).size = 0;
                     (this->data_struct).capacity = 0;
                     free((this->data_struct).data);
-                } while (0);
+                } while (0);*/
             }
 
         public:
             bool isEmpty()
             {
-                return ((this->data_struct).size == 0);
+                return (size() == 0);
             }
 
             void pushBack(const T& value)
             {
-                do 
+               /* do 
                 {
                     if ((this->data_struct).size + 1 > (this->data_struct).capacity) 
                     {
@@ -142,28 +244,83 @@ namespace MCLCPPLIB_NAMESPACE
                     } 
                     (this->data_struct).data[(this->data_struct).size] = (value);
                     (this->data_struct).size += 1;
-                } while (0);
+                } while (0);*/
+                if (m_size >= m_capacity) {
+                    reallocate(m_capacity == 0 ? 1 : m_capacity * 2);
+                }
+                new (data + m_size) T(value);
+                ++m_size;
+            }
+
+            void push_back(const T& value)
+            {
+                pushBack(value);
+            }
+
+            bool empty()
+            {
+                return isEmpty();
+            }
+
+            size_t size()
+            {
+                return m_size;
+            }
+
+            void clear() 
+            {
+                for (size_t i = 0; i < m_size; ++i) 
+                {
+                    data[i].~T();
+                }
+                m_size = 0;
+            }
+
+            typedef Iterator<T> iterator;
+            typedef Iterator<const T> const_iterator;
+            iterator begin() {
+                return iterator(data);
+            }
+
+            iterator end() {
+                return iterator(data + m_size);
+            }
+
+            const_iterator cbegin() const {
+                return const_iterator(data);
+            }
+
+            const_iterator cend() const {
+                return const_iterator(data + m_size);
             }
 
         public:
             T& operator[](size_t index)
             {
-                if (index > data_struct.capacity)
+                if (index > m_capacity)
                 {
                     throw std::length_error("Index out of memory");
                 }
-                return this->data_struct.data[index];
+                return data[index];
+            }
+
+            const T& operator[](size_t index) const 
+            {
+                if (index > m_capacity)
+                {
+                    throw std::out_of_range("Index out of bounds");
+                }
+                return data[index];
             }
 
         private:
-            struct DATA
-            {
-                T* data; size_t size; size_t capacity;
-            } data_struct;
+            T* data;
+            size_t m_size;
+            size_t m_capacity;
 		};
 
-		template<typename T>
-		using Vector = MCLLibVector<T>;
+		template<typename T, typename ALLOC = std::allocator<T>>
+		using Vector = std::vector<T, ALLOC>;
 	}
 }
 

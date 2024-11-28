@@ -13,7 +13,7 @@ namespace MCLCPPLIB_NAMESPACE
 		class UserArguments : public arguments::Arguments
 		{
 		public:
-			void fromUserProfile(UserProfile user_info);
+			void fromUserProfile(const UserProfile& user_info);
 		};
 	}
 }

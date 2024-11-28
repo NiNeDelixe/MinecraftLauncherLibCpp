@@ -24,25 +24,33 @@
 #endif
 
 #if defined(_WIN32) || defined(_WIN64)
-#	define _UNPACK200 std::string("unpack200.exe")
+//"unpack200.exe"
+#	define _UNPACK200 {0x75, 0x6E, 0x70, 0x61, 0x63, 0x6B, 0x32, 0x30, 0x30, 0x2E, 0x65, 0x78, 0x65}
 #else
-#	define _UNPACK200 std::string("unpack200")
+//"unpack200"
+#	define _UNPACK200 {0x75, 0x6E, 0x70, 0x61, 0x63, 0x6B, 0x32, 0x30, 0x30}
 #endif
 
 #if defined(_WIN32) || defined(_WIN64)
-#	define _UNPACK200_ARGS std::string(R"(-r -v -l "")")
+//"-r -v -l \"\""
+#	define _UNPACK200_ARGS {0x2D, 0x72, 0x20, 0x2D, 0x76, 0x20, 0x2D, 0x6C, 0x20, 0x22, 0x22}
 #else
-#	define _UNPACK200_ARGS std::string("")
+//empty
+#	define _UNPACK200_ARGS {}
 #endif
 
 #define _USER_DIR MCLCPPLIB_NAMESPACE::utils::expandUser("~")
 #define _JRE_DIR _USER_DIR + "\\" + ".jre"
 #define _JDK_DIR _USER_DIR + "\\" + ".jdk"
 
-#define _TAR std::string(".tar")
-#define _TAR_GZ std::string(".tar.gz")
-#define _ZIP std::string(".zip")
-#define _SEVEN_ZIP std::string(".7z")
+//".tar"
+#define _TAR {0x2E, 0x74, 0x61, 0x72}
+//".tar.gz"
+#define _TAR_GZ {0x2E, 0x74, 0x61, 0x72, 0x2E, 0x67, 0x7A}
+//".zip"
+#define _ZIP {0x2E, 0x7A, 0x69, 0x70}
+//".7z"
+#define _SEVEN_ZIP {0x2E, 0x37, 0x7A}
 
 #define IN_BUF_MAX 409600
 #define OUT_BUF_MAX 409600
@@ -52,9 +60,11 @@
 #define COMPRESSION_EXTREME true
 
 #if defined(_WIN32) || defined(_WIN64)
-#	define CLASSPATH_SEPARATOR std::string(";")
+//str ";"
+#	define CLASSPATH_SEPARATOR {0x3B}
 #else
-#	define CLASSPATH_SEPARATOR std::string(":")
+//str ":"
+#	define CLASSPATH_SEPARATOR {0x3A}
 #endif
 
 #endif // !UTILS_MACROS_H_

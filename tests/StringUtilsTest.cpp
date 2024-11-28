@@ -1,6 +1,8 @@
 #define BOOST_TEST_MODULE StringUtilsTest
 #include <boost/test/unit_test.hpp>
 
+#include <filesystem>
+
 #include "MinecraftLauncherLib/Utils/StringUtils.h"
 
 BOOST_AUTO_TEST_CASE(StringReplaceTest1)

@@ -10,71 +10,77 @@
 
 namespace MCLCPPLIB_NAMESPACE
 {
-	class SingleLibrary
+	namespace libraries
 	{
-	public:
-		SingleLibrary(const std::filesystem::path& lib_path);
-		~SingleLibrary() = default;
-
-	public:
-		template<typename STR>
-		static SingleLibrary getLibraryFromName(const STR& name, const std::filesystem::path& path)
+		class SingleLibrary
 		{
-			/*
-			Returns the path from a libname
-			*/
+		public:
+			SingleLibrary(const std::filesystem::path& lib_path);
+			~SingleLibrary() = default;
 
-			std::filesystem::path libpath = path / "libraries";
-
-			std::vector<STR> parts = MCLCPPLIB_NAMESPACE::utils::string::split(name, ':');
-			STR& base_path = parts[0];
-			STR& libname = parts[1];
-			STR& version = parts[2];
-			STR fileend;
-
-			char varsion_splitter_char = '@';
-			STR::value_type version_spliter = static_cast<STR::value_type>(varsion_splitter_char);
-
-			for (auto& var : MCLCPPLIB_NAMESPACE::utils::string::split(base_path, '.'))
+		public:
+			/// <summary>
+			/// Returns the path from a libname
+			/// </summary>
+			/// <typeparam name="STR">Standart string</typeparam>
+			/// <param name="name">Name of library</param>
+			/// <param name="path">Path to minecraft directory</param>
+			/// <returns>Path from a libname</returns>
+			template<typename STR>
+			static SingleLibrary getLibraryFromName(const STR& name, const std::filesystem::path& path)
 			{
-				libpath /= var.c_str();
-			}
-			if (version.find(version_spliter) != STR::npos && version[version.find(version_spliter)] == version_spliter)
-			{
-				std::vector<STR> splt = MCLCPPLIB_NAMESPACE::utils::string::split(version, version_spliter, 2);
-				version = splt[0];
-				fileend = splt[1];
-			}
-			else
-			{
-				//STR("jar")
-				fileend = STR({ 0x6A, 0x61, 0x72 });
-			}
-			// construct a filename with the remaining parts
+				std::filesystem::path libpath = path / "libraries";
 
-			//STR("-")
-			STR filename = libname + STR({ 0x2D }) + version;
+				std::vector<STR> parts = MCLCPPLIB_NAMESPACE::utils::string::split(name, ':');
+				STR& base_path = parts[0];
+				STR& libname = parts[1];
+				STR& version = parts[2];
+				STR fileend;
 
-			for (size_t i = 3; i < parts.size(); ++i)
-			{
+				char varsion_splitter_char = '@';
+				STR::value_type version_spliter = static_cast<STR::value_type>(varsion_splitter_char);
+
+				for (auto& var : MCLCPPLIB_NAMESPACE::utils::string::split(base_path, '.'))
+				{
+					libpath /= var.c_str();
+				}
+				if (version.find(version_spliter) != STR::npos && version[version.find(version_spliter)] == version_spliter)
+				{
+					std::vector<STR> splt = MCLCPPLIB_NAMESPACE::utils::string::split(version, version_spliter, 2);
+					version = splt[0];
+					fileend = splt[1];
+				}
+				else
+				{
+					//STR("jar")
+					fileend = STR({ 0x6A, 0x61, 0x72 });
+				}
+				// construct a filename with the remaining parts
+
 				//STR("-")
-				filename += STR({ 0x2D }) + parts[i];
+				STR filename = libname + STR({ 0x2D }) + version;
+
+				for (size_t i = 3; i < parts.size(); ++i)
+				{
+					//STR("-")
+					filename += STR({ 0x2D }) + parts[i];
+				}
+				//STR(".")
+				filename += STR({ 0x2E }) + fileend;
+
+				libpath = libpath / libname / version / filename;
+
+				SingleLibrary lib(libpath);
+				return lib;
 			}
-			//STR(".")
-			filename += STR({ 0x2E }) + fileend;
 
-			libpath = libpath / libname / version / filename;
+		public:
+			const std::filesystem::path& getLibraryPath() const { return this->library_path; }
 
-			SingleLibrary lib(libpath);
-			return lib;
-		}
-
-	public:
-		const std::filesystem::path& getLibraryPath() const { return this->library_path; }
-
-	private:
-		std::filesystem::path library_path;
-	};
+		private:
+			std::filesystem::path library_path;
+		};
+	}
 }
 
 #endif // !MINECRAFTLAUNCHERLIB_SINGLELIBRARY_H_
