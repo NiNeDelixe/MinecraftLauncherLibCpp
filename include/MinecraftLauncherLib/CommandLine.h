@@ -8,9 +8,9 @@
 
 #include "MinecraftLauncherLib/VersionProfile.h"
 #include "MinecraftLauncherLib/UserProfile.h"
-#include "MinecraftLauncherLib/Libraries.h"
-#include "MinecraftLauncherLib/Java.h"
-#include "MinecraftLauncherLib/Arguments.h"
+#include "MinecraftLauncherLib/Core/Libraries.h"
+#include "MinecraftLauncherLib/Core/Java.h"
+#include "MinecraftLauncherLib/Core/Arguments.h"
 #include "MinecraftLauncherLib/Utils/StringUtils.h"
 
 namespace MCLCPPLIB_NAMESPACE

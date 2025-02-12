@@ -1,3 +1,4 @@
+#pragma once
 #ifndef UTILS_STRINGUTILS_H_
 #define UTILS_STRINGUTILS_H_
 
@@ -122,6 +123,93 @@ namespace MCLCPPLIB_NAMESPACE
 				}
 			}*/
 
+			template<typename STR>
+			void ltrim(STR& s)
+			{
+				s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+					return !std::isspace(ch);
+					}));
+			}
+
+			template<typename STR, typename SYMB>
+			void ltrim(STR& s, const SYMB& symbol)
+			{
+				s.erase(s.begin(), std::find_if(s.begin(), s.end(), [&symbol](SYMB ch) {
+					return ch != symbol;
+					}));
+			}
+
+			template<typename STR>
+			void rtrim(STR& s)
+			{
+				s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+					return !std::isspace(ch);
+					}).base(), s.end());
+			}
+
+			template<typename STR, typename SYMB>
+			static inline void rtrim(STR& s, const SYMB& symbol)
+			{
+				s.erase(std::find_if(s.rbegin(), s.rend(), [&symbol](SYMB ch) {
+					return ch != symbol;
+					}).base(), s.end());
+			}
+
+			template<typename STR>
+			void trim(STR& s)
+			{
+				rtrim(s);
+				ltrim(s);
+			}
+
+			template<typename STR, typename SYMB>
+			void trim(STR& s, const SYMB& symbol)
+			{
+				rtrim(s, symbol);
+				ltrim(s, symbol);
+			}
+
+			template<typename STR>
+			STR ltrim_copy(STR s)
+			{
+				ltrim(s);
+				return s;
+			}
+
+			template<typename STR, typename SYMB>
+			STR ltrim_copy(STR s, const SYMB& symbol)
+			{
+				ltrim(s, symbol);
+				return s;
+			}
+
+			template<typename STR>
+			STR rtrim_copy(STR s)
+			{
+				rtrim(s);
+				return s;
+			}
+
+			template<typename STR, typename SYMB>
+			STR rtrim_copy(STR s, const SYMB& symbol)
+			{
+				rtrim(s, symbol);
+				return s;
+			}
+
+			template<typename STR>
+			STR trim_copy(STR s)
+			{
+				trim(s);
+				return s;
+			}
+
+			template<typename STR, typename SYMB>
+			STR trim_copy(STR s, const SYMB& symbol)
+			{
+				trim(s, symbol);
+				return s;
+			}
 
 		}
 	}

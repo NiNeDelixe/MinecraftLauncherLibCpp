@@ -11,36 +11,14 @@ std::vector<std::u32string> MCLCPPLIB_NAMESPACE::command::vector::generateComman
 	std::u32string version = game_profile.getVersion();
 	auto& options = user_profile.getOptions();
 
-	auto& executable_path = game_profile.getJavaPath();
-
-	if (!std::filesystem::exists(minecraft_directory / "versions" / version / (version + U".json")) ||
-		!std::filesystem::is_directory(minecraft_directory / "versions" / version))
-	{
-		//std::cerr << "Version Not Found" << version;
-		return {};
-	}
-
-	nlohmann::json data;
-	std::ifstream ifs;
-	ifs.open(minecraft_directory / "versions" / version / (version + U".json"));
-	ifs >> data;
-	ifs.close();
-
-	if (data.contains("inheritsFrom"))
-	{
-		data = VersionProfile::inheritJson(data, minecraft_directory);
-	}
-	if (game_profile.getNativesPath().empty())
-	{
-		game_profile.setNativesPath(minecraft_directory / "versions" / data["id"].template get<std::string>() / "natives");
-	}
-
-	game_profile.setLibrariesPaths(libraries::Libraries::fromJson(data, minecraft_directory, options.libraries_directory.get()).toPaths());
+	auto& executable_path = options.java_executable_path.get();
+	
+	auto& data = game_profile.getJsonData();
 
 	std::vector<std::u32string> command;
 
 	// Add Java executable
-	if (executable_path != "")
+	if (!executable_path.empty())
 	{
 		command.push_back(executable_path.u32string());
 	}
@@ -58,13 +36,14 @@ std::vector<std::u32string> MCLCPPLIB_NAMESPACE::command::vector::generateComman
 	}
 	else
 	{
-		//command.push_back(options.get("defaultExecutablePath", std::string("java")));
+		command.push_back(options.java_executable_path.get().empty() ? std::u32string(U"java") : options.java_executable_path.get().u32string());
 	}
 
-	/*if (options.jvmArguments != "")
+	auto jvm_arguments = game_profile.getJavaArgs().toU32StringsVector();
+	if (!jvm_arguments.empty())
 	{
-		command.push_back(options.jvmArguments);
-	}*/
+		command.insert(command.end(), jvm_arguments.begin(), jvm_arguments.end());
+	}
 
 	// Newer Versions have jvmArguments in version.json
 	if (data["arguments"].type() == nlohmann::json::value_t::object)
@@ -80,6 +59,7 @@ std::vector<std::u32string> MCLCPPLIB_NAMESPACE::command::vector::generateComman
 			command.push_back(U"-cp");
 			command.push_back(libraries::Libraries::pathsToString(game_profile.getLibrariesPaths()));
 		}
+		
 	}
 	else
 	{
@@ -136,6 +116,7 @@ std::u32string MCLCPPLIB_NAMESPACE::command::string::generateCommand(
 	auto command = vector::generateCommand(game_profile, user_profile);
 
 	std::u32string s;
-	for (const auto& piece : command) s += piece + U" ";
+	for (const auto& piece : command) 
+		s += piece + U" ";
 	return s;
 }

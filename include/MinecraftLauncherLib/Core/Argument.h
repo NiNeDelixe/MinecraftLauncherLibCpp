@@ -1,7 +1,7 @@
 #ifndef MINECRAFTLAUNCHERLIB_ARGUMENT_H_
 #define MINECRAFTLAUNCHERLIB_ARGUMENT_H_
 
-#include "MCLLib-api.h"
+#include "MinecraftLauncherLib/MCLLib-api.h"
 
 #include <variant>
 #include <filesystem>

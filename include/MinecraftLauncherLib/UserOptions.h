@@ -5,6 +5,7 @@
 #include "MinecraftLauncherLib/MCLLib-api.h"
 
 #include <memory>
+#include <ostream>
 
 #include <nlohmann/json.hpp>
 
@@ -29,7 +30,27 @@ namespace MCLCPPLIB_NAMESPACE
 		public:
 			RuntimeOptions(const nlohmann::json& json)
 			{
-				fromJson(json);
+				auto& result = *this;
+				if (json.is_object())
+				{
+					SET_JSON_VALUE(json, result, minecraft_directory, std::filesystem::path);
+					SET_JSON_VALUE(json, result, natives_directory, std::filesystem::path);
+					SET_JSON_VALUE(json, result, libraries_directory, std::filesystem::path);
+					SET_JSON_VALUE(json, result, assets_directory, std::filesystem::path);
+					SET_JSON_VALUE(json, result, java_executable_path, std::filesystem::path);
+
+					SET_JSON_VALUE(json, result, is_custom_resolution, bool);
+					SET_JSON_VALUE(json, result, custom_resolution_height, int);
+					SET_JSON_VALUE(json, result, custom_resolution_width, int);
+
+					SET_JSON_VALUE(json, result, is_demo, bool);
+
+					SET_JSON_VALUE(json, result, server, std::string);
+					SET_JSON_VALUE(json, result, port, std::string);
+
+					SET_JSON_VALUE(json, result, launcher_name, std::string);
+					SET_JSON_VALUE(json, result, launcher_version, std::string);
+				}
 			}
 			~RuntimeOptions() = default;
 
@@ -57,6 +78,16 @@ namespace MCLCPPLIB_NAMESPACE
 
 			utils::settings::StringSetting launcher_name = { "null" };
 			utils::settings::StringSetting launcher_version = { "null" };
+		};
+
+		class ProcessOptions
+		{
+		public:
+			//std::filesystem::path ;
+			uint16_t pid = 0;
+
+			std::ostream* cout_stream = nullptr;
+			std::ostream* cerr_stream = nullptr;
 		};
 
 	}

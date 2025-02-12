@@ -76,3 +76,14 @@ BOOST_AUTO_TEST_CASE(StringSplitTest2)
     BOOST_CHECK_EQUAL_COLLECTIONS(reference_w[0].begin(), reference_w[0].end(), result[0].begin(), result[0].end());
     BOOST_CHECK_EQUAL_COLLECTIONS(reference_w[1].begin(), reference_w[1].end(), result[1].begin(), result[1].end());
 }
+
+BOOST_AUTO_TEST_CASE(StringTrimsTest1)
+{
+    std::string sep_w = "aabaaaaba";
+
+    auto result = MCLCPPLIB_NAMESPACE::utils::string::trim_copy(sep_w, 'a');
+    const std::string reference_w = { "baaaab" };
+
+    BOOST_CHECK_EQUAL_COLLECTIONS(reference_w.begin(), reference_w.end(), result.begin(), result.end());
+    BOOST_CHECK_EQUAL_COLLECTIONS(reference_w.begin(), reference_w.end(), result.begin(), result.end());
+}

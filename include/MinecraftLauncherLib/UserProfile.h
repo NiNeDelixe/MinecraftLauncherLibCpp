@@ -1,7 +1,7 @@
 #ifndef MINECRAFTLAUNCHERLIB_USERPROFILE_H_
 #define MINECRAFTLAUNCHERLIB_USERPROFILE_H_
 
-#include "MCLLib-api.h"
+#include "MinecraftLauncherLib/MCLLib-api.h"
 
 #include <string>
 

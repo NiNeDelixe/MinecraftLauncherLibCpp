@@ -1,4 +1,4 @@
-#include "MinecraftLauncherLib/Arguments.h"
+#include "MinecraftLauncherLib/Core/Arguments.h"
 
 MCLCPPLIB_NAMESPACE::arguments::Arguments MCLCPPLIB_NAMESPACE::arguments::Arguments::getArgumentsFromJson(const nlohmann::json& data, 
 	const nlohmann::json& versionData, const UserProfile& profile, const types::Vector<std::filesystem::path>& libraries_paths)
@@ -75,7 +75,8 @@ std::u32string MCLCPPLIB_NAMESPACE::arguments::Arguments::replaceArguments(const
 	std::u32string s;
 	if (replace.find(U"${classpath}") != std::u32string::npos)
 	{
-		for (const auto& piece : libraries_paths) s += piece.u32string() + std::u32string(CLASSPATH_SEPARATOR);
+		for (const auto& piece : libraries_paths) 
+			s += piece.u32string() + std::u32string(CLASSPATH_SEPARATOR);
 	}
 
 	utils::string::replace(replace, std::u32string(U"${natives_directory}"), options.natives_directory.get().u32string());
@@ -86,7 +87,7 @@ std::u32string MCLCPPLIB_NAMESPACE::arguments::Arguments::replaceArguments(const
 	utils::string::replace(replace, std::u32string(U"${version_name}"), data["id"].template get<std::string>());
 	utils::string::replace(replace, std::u32string(U"${game_directory}"), minecraft_path.u32string());
 	utils::string::replace(replace, std::u32string(U"${assets_root}"), (options.assets_directory.get() / "assets").u32string());
-	utils::string::replace(replace, std::u32string(U"${assets_index_name}"), !data["assets"].empty() ? data["assets"].template get<std::string>() : data["id"].template get<std::string>());
+	utils::string::replace(replace, std::u32string(U"${assets_index_name}"), data.contains("assets") ? data["assets"].template get<std::string>() : data["id"].template get<std::string>());
 	utils::string::replace(replace, std::u32string(U"${auth_uuid}"), uuid.empty() ? std::u32string(U"{uuid}") : uuid);
 	utils::string::replace(replace, std::u32string(U"${auth_access_token}"), token.empty() ? std::u32string(U"{token}") : token);
 	utils::string::replace(replace, std::u32string(U"${user_type}"), std::u32string(U"mojang"));
@@ -96,7 +97,7 @@ std::u32string MCLCPPLIB_NAMESPACE::arguments::Arguments::replaceArguments(const
 	utils::string::replace(replace, std::u32string(U"${resolution_height}"), std::to_string(options.custom_resolution_height.get()));
 	utils::string::replace(replace, std::u32string(U"${game_assets}"), (minecraft_path / "assets" / "virtual" / "legacy").u32string());
 	utils::string::replace(replace, std::u32string(U"${auth_session}"), token.empty() ? std::u32string(U"{token}") : token);
-	utils::string::replace(replace, std::u32string(U"${library_directory}"), options.libraries_directory.get().u32string());
+	utils::string::replace(replace, std::u32string(U"${library_directory}"), (options.libraries_directory.get() / "libraries").u32string());
 	utils::string::replace(replace, std::u32string(U"${classpath_separator}"), std::u32string(CLASSPATH_SEPARATOR));
 	//FIXME: add options below in options class
 	utils::string::replace(replace, std::u32string(U"${quickPlayPath}"), std::u32string(U"quickPlayPath"));
@@ -107,7 +108,7 @@ std::u32string MCLCPPLIB_NAMESPACE::arguments::Arguments::replaceArguments(const
 	return replace;
 }
 
-MCLCPPLIB_NAMESPACE::types::Vector<std::u32string> MCLCPPLIB_NAMESPACE::arguments::Arguments::toU32StringsVector()
+MCLCPPLIB_NAMESPACE::types::Vector<std::u32string> MCLCPPLIB_NAMESPACE::arguments::Arguments::toU32StringsVector() const
 {
 	types::Vector<std::u32string> vector;
 	
@@ -130,7 +131,47 @@ void MCLCPPLIB_NAMESPACE::arguments::Arguments::processValue(const nlohmann::jso
 	std::u32string original = value.template get<std::filesystem::path>().u32string();
 	std::u32string replace = replaceArguments(original, versionData, profile, libraries_paths);
 
-	if (replace == original) 
+	//arglist.push_back(utils::arguments::Argument(replace, {}));
+
+	if (replace._Starts_with(U"-")) {
+		// Если уже есть флаг без значения, добавляем его
+		if (!previous.empty()) {
+			arglist.push_back(utils::arguments::Argument(previous, {}));
+		}
+		// Запоминаем новый флаг
+		previous = replace;
+	}
+	else {
+		// Если `previous` содержит флаг, связываем его с `replace`
+		if (!previous.empty()) {
+			arglist.push_back(utils::arguments::Argument(previous, replace));
+			previous.clear();
+		}
+		else {
+			// Если `previous` пуст, просто добавляем аргумент без пары
+			arglist.push_back(utils::arguments::Argument(replace, {}));
+		}
+	}
+
+	/*if (replace._Starts_with(U"-") && previous.empty())
+	{
+		previous = replace;
+	}
+	else
+	{
+		if (!previous.empty() && original != replace && !replace._Starts_with(U"-"))
+		{
+			arglist.push_back(utils::arguments::Argument(previous, replace));
+			previous.clear();
+		}
+		else
+		{
+			arglist.push_back(utils::arguments::Argument(replace, {}));
+			previous = replace;
+		}
+	}*/
+
+	/*if (replace == original) 
 	{
 		previous = original;
 	}
@@ -145,5 +186,5 @@ void MCLCPPLIB_NAMESPACE::arguments::Arguments::processValue(const nlohmann::jso
 		{
 			arglist.push_back(utils::arguments::Argument(replace, {}));
 		}
-	}
+	}*/
 }

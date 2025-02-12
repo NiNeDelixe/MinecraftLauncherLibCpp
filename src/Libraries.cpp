@@ -1,4 +1,4 @@
-#include "MinecraftLauncherLib/Libraries.h"
+#include "MinecraftLauncherLib/Core/Libraries.h"
 
 MCLCPPLIB_NAMESPACE::libraries::Libraries::Libraries(const std::filesystem::path& minecraft_dir)
 	: minecraft_directory(minecraft_dir)
@@ -67,7 +67,7 @@ std::string MCLCPPLIB_NAMESPACE::libraries::Libraries::getNatives(const nlohmann
 	nlohmann::json data = json;
 	std::string arch_type = ARCH == "x86" ? "32" : "64";
 
-	if (!(data.type() == nlohmann::json::value_t::object && data.contains("natives")))
+	if (!data.contains("natives"))
 	{
 		return "";
 	}
@@ -119,7 +119,27 @@ std::u32string MCLCPPLIB_NAMESPACE::libraries::Libraries::pathsToString(types::V
 	return result;
 }
 
-MCLCPPLIB_NAMESPACE::types::Vector<std::filesystem::path> MCLCPPLIB_NAMESPACE::libraries::Libraries::toPaths()
+std::u32string MCLCPPLIB_NAMESPACE::libraries::Libraries::toU32String() const
+{
+	std::u32string result;
+	for (size_t i = 0; i < this->libraries.size(); i++)
+	{
+		result += libraries[i].getLibraryPath().u32string() + std::u32string(CLASSPATH_SEPARATOR);
+	}
+	return result;
+}
+
+std::string MCLCPPLIB_NAMESPACE::libraries::Libraries::toString() const
+{
+	std::string result;
+	for (size_t i = 0; i < this->libraries.size(); i++)
+	{
+		result += libraries[i].getLibraryPath().string() + std::string(CLASSPATH_SEPARATOR);
+	}
+	return result;
+}
+
+MCLCPPLIB_NAMESPACE::types::Vector<std::filesystem::path> MCLCPPLIB_NAMESPACE::libraries::Libraries::toPaths() const
 {
 	types::Vector<std::filesystem::path> paths;
 	for (size_t i = 0; i < this->libraries.size(); i++)
