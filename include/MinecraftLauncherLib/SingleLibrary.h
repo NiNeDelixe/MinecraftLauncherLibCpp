@@ -46,17 +46,38 @@ namespace MCLCPPLIB_NAMESPACE
 			}
 			else
 			{
-				fileend = static_cast<STR>(std::string("jar"));
+				char* ch_cast = "jar";
+				STR str_cast = STR();
+				for (size_t i = 0; ch_cast[i] != '\0'; i++)
+				{
+					str_cast += static_cast<STR::value_type>(ch_cast[i]);
+				}
+				
+				fileend = str_cast;
 			}
 			// construct a filename with the remaining parts
 
-			STR filename = libname + static_cast<STR>(std::string("-")) + version;
+			char ch_cast = '-';
+			STR::value_type str_cast = static_cast<STR::value_type>(ch_cast);
+			STR added = STR();
+			added += str_cast;
+			STR filename = libname + added + version;
 
 			for (size_t i = 3; i < parts.size(); ++i)
 			{
-				filename += static_cast<STR>(std::string("-")) + parts[i];
+				char ch_cast = '-';
+				STR::value_type str_cast = static_cast<STR::value_type>(ch_cast);
+				STR added = STR();
+				added += str_cast;
+				STR add_to_filename = added + parts[i];
+				filename += add_to_filename;
 			}
-			filename += static_cast<STR>(std::string(".")) + fileend;
+
+			ch_cast = '.';
+			str_cast = static_cast<const STR::value_type>(ch_cast);
+			added = STR();
+			added += str_cast;
+			filename += added + fileend;
 
 			libpath = libpath / libname / version / filename;
 

@@ -7,6 +7,8 @@
 #include <stdio.h>
 
 #include <vector>
+#include <string>
+#include <memory>
 
 /* Declare a vector of type `TYPE`. */
 #define VECTOR_OF(TYPE) struct { \
@@ -80,16 +82,16 @@ namespace MCLCPPLIB_NAMESPACE
         public:
             MCLLibVector()
             {
-                do 
+                do
                 {
-                    (this->data_struct).data = static_cast<T*>(malloc((1) * sizeof(*(this->data_struct).data))); 
-                    if (!(this->data_struct).data) 
+                    this->data = this->allocat.allocate(1 * sizeof(*this->data));
+                    if (!this->data)
                     {
-                        fputs("malloc failed!\n", (__acrt_iob_func(2)));
-                        abort();
-                    } 
-                    (this->data_struct).size = 0;
-                    (this->data_struct).capacity = (1);
+                        //fputs("malloc failed!\n", (__acrt_iob_func(2)));
+                        //abort();
+                    }
+                    this->m_size = 0;
+                    this->capacity = 1;
                 } while (0);
             }
 
@@ -97,14 +99,14 @@ namespace MCLCPPLIB_NAMESPACE
             {
                 do 
                 {
-                    (this->data_struct).data = malloc((size) * sizeof(*(this->data_struct).data)); 
-                    if (!(this->data_struct).data) 
+                    this->data = this->allocat.allocate(size * sizeof(*this->data));
+                    if (!this->data) 
                     {
-                        fputs("malloc failed!\n", (__acrt_iob_func(2)));
-                        abort();
+                        //fputs("malloc failed!\n", (__acrt_iob_func(2)));
+                        //abort();
                     } 
-                    (this->data_struct).size = 0;
-                    (this->data_struct).capacity = (size);
+                    this->m_size = 0;
+                    this->capacity = size;
                 } while (0);
             }
 
@@ -112,59 +114,88 @@ namespace MCLCPPLIB_NAMESPACE
             {
                 do 
                 {
-                    (this->data_struct).size = 0;
-                    (this->data_struct).capacity = 0;
-                    free((this->data_struct).data);
+                    this->allocat.deallocate(this->data, this->capacity);
+                    this->m_size = 0;
+                    this->capacity = 0;
                 } while (0);
             }
 
         public:
-            bool isEmpty()
+            size_t size()
             {
-                return ((this->data_struct).size == 0);
+                return this->m_size;
             }
 
-            void pushBack(const T& value)
+            bool empty()
             {
-                do 
-                {
-                    if ((this->data_struct).size + 1 > (this->data_struct).capacity) 
-                    {
-                        size_t n = (this->data_struct).capacity * 2;
-                        void* p = realloc((this->data_struct).data, n * sizeof(*(this->data_struct).data)); 
-                        if (!p) 
-                        {
-                            fputs("realloc failed!\n", (__acrt_iob_func(2))); 
-                            abort();
-                        } 
-                        (this->data_struct).data = static_cast<T*>(p);
-                        (this->data_struct).capacity = n;
-                    } 
-                    (this->data_struct).data[(this->data_struct).size] = (value);
-                    (this->data_struct).size += 1;
-                } while (0);
+                return this->m_size == 0;
             }
+
+            void push_back(const T& value)
+            {
+                if (this->size + 1 > this->capacity) 
+                {
+                    size_t n = this->capacity * 2;
+                    this->allocat.deallocate(this->data, this->capacity);
+                    this->data = this->allocat.allocate(n * sizeof(*this->data));
+                    if (!this->data)
+                    {
+                        fputs("realloc failed!\n", (__acrt_iob_func(2))); 
+                        abort();
+                    } 
+                    this->capacity = n;
+                } 
+                //new(this->data + this->size, value);
+                this->data[this->m_size] = value;
+                this->m_size += 1;
+            }
+
+        private:
+            template<class... ARGS>
+            T& emplaceOneAtBack(ARGS&&... _Val)
+            {
+
+            }
+
+            
 
         public:
             T& operator[](size_t index)
             {
-                if (index > data_struct.capacity)
+                if (index > this->capacity)
                 {
                     throw std::length_error("Index out of memory");
                 }
-                return this->data_struct.data[index];
+                return this->data[index];
             }
 
         private:
-            struct DATA
-            {
-                T* data; size_t size; size_t capacity;
-            } data_struct;
+            T* data;
+            size_t m_size;
+            size_t capacity;
+            
+
+            std::allocator<T> allocat;
 		};
 
+        template<typename T>
+        MCLLibVector<T>& operator+=(MCLLibVector<T>& vec, const T& new_value)
+        {
+            vec.push_back(new_value);
+            return vec;
+        }
+
+
 		template<typename T>
-		using Vector = MCLLibVector<T>;
+		using Vector = std::vector<T, std::allocator<T>>;
+
 	}
+    template<typename T>
+    types::Vector<T>& operator+=(types::Vector<T>& vec, const T& new_value)
+    {
+        vec.push_back(new_value);
+        return vec;
+    }
 }
 
 #endif // !TYPES_VECTOR_H_

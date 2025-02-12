@@ -11,8 +11,9 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	namespace arguments
 	{
-		class JavaArguments : public arguments::Arguments
+		class JavaArguments : public MCLCPPLIB_NAMESPACE::arguments::BasicArguments
 		{
+
 		};
 	}
 }

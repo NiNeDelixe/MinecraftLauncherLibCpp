@@ -5,6 +5,8 @@
 
 BOOST_AUTO_TEST_CASE(VersionProfileTest1)
 {
-	MCLCPPLIB_NAMESPACE::VersionProfile client_profile(".");
-	client_profile.fromJson(".");
+	auto exec_path = std::filesystem::current_path();
+	std::filesystem::path mcpath = exec_path / ".." / ".." / ".." / ".." / "test" / "mc";
+	MCLCPPLIB_NAMESPACE::VersionProfile client_profile;
+	client_profile.fromJson(mcpath / "versions\\1.18.2\\1.18.2.json");
 }

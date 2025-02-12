@@ -20,7 +20,6 @@ namespace MCLCPPLIB_NAMESPACE
 
 		namespace convert
 		{
-			std::wstring convertStringToWstring(const std::string& conv);
 		}
 	}
 }

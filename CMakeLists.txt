@@ -14,7 +14,40 @@ endif()
 project ("MinecraftLauncherLib")
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable(MinecraftLauncherLib "include/MinecraftLauncherLib.h" "include/MinecraftLauncherLib/VersionProfile.h" "include/MinecraftLauncherLib/UserProfile.h" "include/MinecraftLauncherLib/JavaArguments.h" "test/main.cpp" "include/MinecraftLauncherLib/Argument.h" "include/MinecraftLauncherLib/Types/Vector.h" "include/MinecraftLauncherLib/Utils/Macros.h" "include/MinecraftLauncherLib/Utils/PathUtils.h" "include/MinecraftLauncherLib/Utils/StringUtils.h"  "include/MinecraftLauncherLib/Utils/MemoryUtils.h" "include/MinecraftLauncherLib/Arguments.h" "include/MinecraftLauncherLib/UserArguments.h" "test/StringUtilsTest.cpp" "include/MinecraftLauncherLib/Libraries.h" "include/MinecraftLauncherLib/SingleLibrary.h" "src/SingleLibrary.cpp")
+add_executable(MinecraftLauncherLib
+"include/MinecraftLauncherLib.h"
+"include/MinecraftLauncherLib/VersionProfile.h"
+"include/MinecraftLauncherLib/UserProfile.h"
+"include/MinecraftLauncherLib/JavaArguments.h"
+
+"include/MinecraftLauncherLib/Argument.h"
+"include/MinecraftLauncherLib/Types/Vector.h"
+"include/MinecraftLauncherLib/Utils/Macros.h"
+"include/MinecraftLauncherLib/Utils/PathUtils.h"
+"include/MinecraftLauncherLib/Utils/StringUtils.h"
+"include/MinecraftLauncherLib/Utils/MemoryUtils.h"
+"include/MinecraftLauncherLib/Arguments.h"
+"include/MinecraftLauncherLib/UserArguments.h"
+"test/StringUtilsTest.cpp"
+"include/MinecraftLauncherLib/Libraries.h"
+"include/MinecraftLauncherLib/SingleLibrary.h"
+"src/SingleLibrary.cpp"
+"include/MinecraftLauncherLib/Basic/MinecraftObject.h"
+"src/MinecraftObject.cpp"
+"src/Libraries.cpp"
+"include/MinecraftLauncherLib/SingleRule.h"
+"include/MinecraftLauncherLib/Rules.h"
+"src/Rules.cpp"
+"src/SingleRule.cpp"
+"include/MinecraftLauncherLib/Basic/Natives.h"
+"src/Natives.cpp"
+"include/MinecraftLauncherLib/CommandLine.h"
+"include/MinecraftLauncherLib/Utils/JsonUtils.h"
+"src/JsonUtils.cpp"
+"include/MinecraftLauncherLib/Utils/JavaUtils.h"
+"src/JavaUtils.cpp"
+"src/Arguments.cpp"
+"src/CommandLine.cpp" "src/VersionProfile.cpp")
 #add_executable(MinecraftLauncherLib "src/MemoryUtils.cpp" "src/PathUtils.cpp" "src/StringUtils.cpp")
 
 #target_compile_features(${TARGET_NAME} PRIVATE cxx_std_17)
@@ -39,8 +72,8 @@ include_directories(${CMAKE_SOURCE_DIR}/include/)
 include_directories(${CMAKE_SOURCE_DIR}/src/)
 
 enable_testing ()
-set(TESTS StringUtilsTest VersionProfileTest SingleLibraryTest)
-set(TESTS_SOURCE_NAME StringUtils VersionProfile SingleLibrary) 
+set(TESTS StringUtilsTest VersionProfileTest SingleLibraryTest LibrariesTest CommandLineGeneratorTest)
+set(TESTS_SOURCE_NAME StringUtils VersionProfile SingleLibrary Libraries Rules SingleRule Natives JavaUtils JsonUtils UserProfile CommandLine Arguments) 
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/test) 
 

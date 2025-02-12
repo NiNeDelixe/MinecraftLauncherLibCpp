@@ -52,9 +52,9 @@
 #define COMPRESSION_EXTREME true
 
 #if defined(_WIN32) || defined(_WIN64)
-#	define CLASSPATH_SEPARATOR std::string(";")
+#	define CLASSPATH_SEPARATOR ';'
 #else
-#	define CLASSPATH_SEPARATOR std::string(":")
+#	define CLASSPATH_SEPARATOR ':'
 #endif
 
 #endif // !UTILS_MACROS_H_
