@@ -1,9 +1,9 @@
 #ifndef MINECRAFTLAUNCHERLIB_JAVAARGS_H_
 #define MINECRAFTLAUNCHERLIB_JAVAARGS_H_
 
-#include "MCLLib-api.h"
+#include "MinecraftLauncherLib/MCLLib-api.h"
 
-#include "MinecraftLauncherLib/Arguments.h"
+#include "MinecraftLauncherLib/Core/Arguments.h"
 
 #include "MinecraftLauncherLib/Types/Vector.h"
 

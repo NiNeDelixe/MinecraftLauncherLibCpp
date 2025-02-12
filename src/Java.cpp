@@ -1,4 +1,4 @@
-#include "MinecraftLauncherLib/Java.h"
+#include "MinecraftLauncherLib/Core/Java.h"
 
 std::filesystem::path MCLCPPLIB_NAMESPACE::java::Java::getExecutablePath(const std::string& jvm_version, const std::filesystem::path& minecraft_directory)
 {

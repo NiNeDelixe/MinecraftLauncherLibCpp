@@ -1,7 +1,7 @@
 #ifndef MINECRAFTLAUNCHERLIB_ARGUMENTS_H_
 #define MINECRAFTLAUNCHERLIB_ARGUMENTS_H_
 
-#include "MCLLib-api.h"
+#include "MinecraftLauncherLib/MCLLib-api.h"
 
 #include <memory>
 #include <filesystem>
@@ -13,10 +13,10 @@
 
 #include "MinecraftLauncherLib/Types/Vector.h"
 
-#include "MinecraftLauncherLib/Argument.h"
+#include "MinecraftLauncherLib/Core/Argument.h"
+#include "MinecraftLauncherLib/Core/Rules.h"
 #include "MinecraftLauncherLib/UserOptions.h"
 #include "MinecraftLauncherLib/UserProfile.h"
-#include "MinecraftLauncherLib/Rules.h"
 
 namespace MCLCPPLIB_NAMESPACE
 {
@@ -28,7 +28,13 @@ namespace MCLCPPLIB_NAMESPACE
 			static Arguments getArgumentsFromJson(const nlohmann::json& data, const nlohmann::json& versionData, const UserProfile& profile, const types::Vector<std::filesystem::path>& libraries_paths);
 			static std::u32string replaceArguments(const std::u32string& replace, const nlohmann::json& data, const UserProfile& profile, const types::Vector<std::filesystem::path>& libraries_paths);
 
-			types::Vector<std::u32string> toU32StringsVector();
+		public:
+			void add(const utils::arguments::Argument& arg)
+			{
+				arguments.emplace_back(arg);
+			}
+			types::Vector<std::u32string> toU32StringsVector() const;
+			types::Vector<utils::arguments::Argument> getArguments() { return this->arguments; }
 
 		private:
 			static void processValue(const nlohmann::json& value, std::u32string& previous, types::Vector<utils::arguments::Argument>& arglist,

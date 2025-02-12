@@ -11,6 +11,13 @@
 #include <unordered_map>
 #include <functional>
 
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
+
 namespace MCLCPPLIB_NAMESPACE
 {
 	namespace utils
@@ -89,6 +96,11 @@ namespace MCLCPPLIB_NAMESPACE
 
 				virtual void resetToDefault() override {
 					set(initial);
+				}
+
+				bool isDefault()
+				{
+					return initial == value;
 				}
 			};
 

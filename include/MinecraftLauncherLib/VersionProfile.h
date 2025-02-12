@@ -9,10 +9,10 @@
 
 #include <nlohmann/json.hpp>
 
-#include "MinecraftLauncherLib/JavaArguments.h"
-#include "MinecraftLauncherLib/UserArguments.h"
+#include "MinecraftLauncherLib/Core/JavaArguments.h"
+#include "MinecraftLauncherLib/Core/UserArguments.h"
+#include "MinecraftLauncherLib/Core/Libraries.h"
 #include "MinecraftLauncherLib/UserProfile.h"
-#include "MinecraftLauncherLib/Libraries.h"
 
 #include "MinecraftLauncherLib/Types/Vector.h"
 
@@ -30,11 +30,14 @@ namespace MCLCPPLIB_NAMESPACE
 	public:
 		static nlohmann::json inheritJson(const nlohmann::json& original_data, const std::filesystem::path& path);
 
+		nlohmann::json getOriginalJsonData();
+
 	public:
 		// Getters
+		const nlohmann::json& getJsonData() const { return this->current_version_json; }
 		std::u32string getVersion() const { return version; }
 		std::filesystem::path getInstancePath() const { return instance_path; }
-		std::filesystem::path getJavaPath() const { return java_path; }
+		//std::filesystem::path getJavaPath() const { return java_path; }
 		arguments::JavaArguments getJavaArgs() const { return java_args; }
 		std::filesystem::path getNativesPath() const { return natives_path; }
 		types::Vector<std::filesystem::path> getLibrariesPaths() const { return libraries_paths; }
@@ -45,7 +48,7 @@ namespace MCLCPPLIB_NAMESPACE
 		// Setters
 		void setVersion(const std::u32string& version) { this->version = version; }
 		void setInstancePath(const std::filesystem::path& instance_path) { this->instance_path = instance_path; }
-		void setJavaPath(const std::filesystem::path& java_path) { this->java_path = java_path; }
+		//void setJavaPath(const std::filesystem::path& java_path) { this->java_path = java_path; }
 		void setJavaArgs(const arguments::JavaArguments& java_args) { this->java_args = java_args; }
 		void setNativesPath(const std::filesystem::path& natives_path) { this->natives_path = natives_path; }
 		void setLibrariesPaths(const types::Vector<std::filesystem::path>& libraries_paths) { this->libraries_paths = libraries_paths; }
@@ -57,7 +60,7 @@ namespace MCLCPPLIB_NAMESPACE
 		std::u32string version; //TODO: can be string
 		std::filesystem::path instance_path;
 		
-		std::filesystem::path java_path;
+		//std::filesystem::path java_path;
 		arguments::JavaArguments java_args;
 		std::filesystem::path natives_path;
 		types::Vector<std::filesystem::path> libraries_paths;
@@ -65,6 +68,8 @@ namespace MCLCPPLIB_NAMESPACE
 		std::u32string java_mainclass; //TODO: can be string
 		arguments::UserArguments user_arguments;
 		std::u32string assets_index_id;
+
+		nlohmann::json current_version_json;
 	};
 }
 

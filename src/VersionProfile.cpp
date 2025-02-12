@@ -3,7 +3,7 @@
 MCLCPPLIB_NAMESPACE::VersionProfile::VersionProfile(const std::string& version, const options::RuntimeOptions& options)
 	: instance_path(options.minecraft_directory.get()), version(std::filesystem::path(version).u32string()) //FIXME: temperory
 {
-	fromJson(instance_path / "versions" / version / (version + ".json"));
+	fromJson(instance_path / "versions" / version / (version + ".json"), options);
 }
 
 void MCLCPPLIB_NAMESPACE::VersionProfile::fromJson(const std::filesystem::path& json_path, const options::RuntimeOptions& options)
@@ -25,6 +25,8 @@ void MCLCPPLIB_NAMESPACE::VersionProfile::fromJson(const std::filesystem::path& 
 	this->libraries_paths = libraries::Libraries::fromJson(version_json, this->instance_path, options.libraries_directory.get()).toPaths();
 
 	this->java_mainclass = version_json["mainClass"].template get<std::filesystem::path>().u32string();
+
+	this->current_version_json = version_json;
 }
 
 nlohmann::json MCLCPPLIB_NAMESPACE::VersionProfile::inheritJson(const nlohmann::json& original_data, const std::filesystem::path& path)
@@ -38,11 +40,52 @@ nlohmann::json MCLCPPLIB_NAMESPACE::VersionProfile::inheritJson(const nlohmann::
 
 	std::filesystem::path path_inh_json = path / "versions" / inherit_version.template get<std::string>() / (inherit_version.template get<std::string>() + ".json");
 
+	auto get_lib_name_without_version = [](const nlohmann::json& lib)
+		{
+			return lib.contains("name") ? lib["name"].get<std::string>() : "";
+		};
+
 	nlohmann::json new_data;
 	std::ifstream ifs;
 	ifs.open(path_inh_json);
 	ifs >> new_data;
 	ifs.close();
+
+	/*std::unordered_map<std::string, bool> original_libs;
+	if (original_data.contains("libraries")) {
+		for (const auto& lib : original_data["libraries"]) {
+			original_libs[get_lib_name_without_version(lib)] = true;
+		}
+	}
+
+	auto& lib_list = new_data["libraries"];
+	if (original_data.contains("libraries")) {
+		for (const auto& lib : original_data["libraries"]) {
+			lib_list.push_back(lib);
+		}
+	}
+
+	for (auto& [key, value] : original_data.items()) {
+		if (key == "libraries") continue;
+
+		if (value.is_array() && new_data.contains(key) && new_data[key].is_array()) {
+			auto& new_array = new_data[key];
+			new_array.insert(new_array.begin(), value.begin(), value.end());
+		}
+		else if (value.is_object() && new_data.contains(key) && new_data[key].is_object()) {
+			for (auto& [sub_key, sub_value] : value.items()) {
+				if (sub_value.is_array() && new_data[key].contains(sub_key)) {
+					auto& new_array = new_data[key][sub_key];
+					new_array.insert(new_array.begin(), sub_value.begin(), sub_value.end());
+				}
+			}
+		}
+		else {
+			new_data[key] = value;
+		}
+	}
+
+	return new_data;*/
 
 	for (auto& var : original_data.items())
 	{
@@ -80,4 +123,12 @@ nlohmann::json MCLCPPLIB_NAMESPACE::VersionProfile::inheritJson(const nlohmann::
 		}
 	}
 	return new_data;
+}
+
+nlohmann::json MCLCPPLIB_NAMESPACE::VersionProfile::getOriginalJsonData()
+{
+	std::ifstream ifstr(instance_path / "versions" / version / (version + U".json"));
+	nlohmann::json version_json = nlohmann::json::parse(ifstr);
+	ifstr.close();
+	return version_json;
 }

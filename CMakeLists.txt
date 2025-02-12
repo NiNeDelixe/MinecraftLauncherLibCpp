@@ -31,11 +31,28 @@ add_library(${PROJECT_NAME} STATIC ${SOURCES})
 #libraries
 find_package(Boost REQUIRED COMPONENTS unit_test_framework locale)
 
-find_package( LibLZMA REQUIRED )
+find_package(LibLZMA REQUIRED)
 
 find_package(nlohmann_json CONFIG REQUIRED)
 
-set(LIBRARIES ${Boost_LIBRARIES} nlohmann_json::nlohmann_json ${LIBLZMA_LIBRARIES})
+find_package(curlcpp CONFIG REQUIRED)
+
+find_package(libzip CONFIG REQUIRED)
+
+# Найдите Java и JNI
+#find_package(Java 1.8 REQUIRED)
+#find_package(JNI REQUIRED)
+
+# Убедитесь, что JNI найден
+#if (JNI_FOUND)
+#    message(STATUS "JNI found: ${JNI_INCLUDE_DIRS}")
+#    message(STATUS "JNI libraries: ${JNI_LIBRARIES}")
+#    include_directories(${JNI_INCLUDE_DIRS})
+#else()
+#    message(FATAL_ERROR "JNI not found!")
+#endif()
+
+set(LIBRARIES ${Boost_LIBRARIES} nlohmann_json::nlohmann_json ${LIBLZMA_LIBRARIES} curlcpp::curlcpp libzip::zip)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBRARIES})
 
@@ -45,15 +62,11 @@ enable_testing()
 file(GLOB TEST_SOURCES "tests/*.cpp")
 
 foreach(TEST_FILE ${TEST_SOURCES})
-    # Получаем имя файла без пути и расширения
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
 
-    # Создаем отдельное исполняемое тестовое приложение для каждого теста
     add_executable(${TEST_NAME} ${TEST_FILE})
 
-    # Линкуем с библиотекой MyLibrary и Boost
     target_link_libraries(${TEST_NAME} PRIVATE ${PROJECT_NAME} ${LIBRARIES})
 
-    # Добавляем тест в CTest
     add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
 endforeach()

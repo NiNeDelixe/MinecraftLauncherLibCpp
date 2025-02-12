@@ -14,8 +14,8 @@
 #include "MinecraftLauncherLib/Utils/Macros.h"
 #include "MinecraftLauncherLib/Utils/StringUtils.h"
 
-#include "MinecraftLauncherLib/SingleLibrary.h"
-#include "MinecraftLauncherLib/Rules.h"
+#include "MinecraftLauncherLib/Core/SingleLibrary.h"
+#include "MinecraftLauncherLib/Core/Rules.h"
 
 namespace MCLCPPLIB_NAMESPACE
 {
@@ -30,8 +30,16 @@ namespace MCLCPPLIB_NAMESPACE
 			static Libraries fromJson(const nlohmann::json& json, const std::filesystem::path& minecraft_dir, const std::filesystem::path& libraries_root);
 			static std::string getNatives(const nlohmann::json& json);
 			static std::u32string pathsToString(types::Vector<std::filesystem::path> pahts);
+			std::u32string toU32String() const;
+			std::string toString() const;
 
-			types::Vector<std::filesystem::path> toPaths();
+		public:
+			void add(const SingleLibrary& lib)
+			{
+				libraries.emplace_back(lib);
+			}
+
+			types::Vector<std::filesystem::path> toPaths() const;
 
 		private:
 			types::Vector<SingleLibrary> libraries;

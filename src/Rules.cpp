@@ -1,4 +1,4 @@
-#include "MinecraftLauncherLib/Rules.h"
+#include "MinecraftLauncherLib/Core/Rules.h"
 
 bool MCLCPPLIB_NAMESPACE::rules::Rules::parseRuleList(const nlohmann::json& data, const std::string& rule_string)
 {

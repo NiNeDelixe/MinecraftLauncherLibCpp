@@ -1,9 +1,11 @@
 {
   "version": "1.0.0",
   "dependencies": [
+    "boost-locale",
     "boost-test",
     "liblzma",
     "nlohmann-json",
-    "boost-locale"
+    "curlcpp",
+    "libzip"
   ]
 }
