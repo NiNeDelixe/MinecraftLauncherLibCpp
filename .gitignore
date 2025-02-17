@@ -6,6 +6,8 @@
 # Custom ignored
 vcpkg_installed/
 CMakePresets.json
+[Bb]uild/
+[Bb]uilds/
 
 # User-specific files
 *.rsuser

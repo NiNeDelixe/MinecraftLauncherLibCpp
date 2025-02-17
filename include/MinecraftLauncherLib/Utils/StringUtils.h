@@ -16,8 +16,8 @@ namespace MCLCPPLIB_NAMESPACE
 			MCLLIB_API std::vector<STR> split(const STR& s, const char& seperator, const int& count = 0)
 			{
 				std::vector<STR> output;
-				STR::value_type str_seperator = static_cast<STR::value_type>(seperator);
-				STR::size_type prev_pos = 0, pos = 0;
+				typename STR::value_type str_seperator = static_cast<typename STR::value_type>(seperator);
+				typename STR::size_type prev_pos = 0, pos = 0;
 
 				if (count > 0)
 				{
@@ -82,7 +82,7 @@ namespace MCLCPPLIB_NAMESPACE
 							continue;
 						}
 					}
-					out += static_cast<REPL::value_type>(*it);
+					out += static_cast<typename REPL::value_type>(*it);
 					++it;
 				}
 

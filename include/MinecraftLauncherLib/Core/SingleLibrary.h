@@ -47,7 +47,7 @@ namespace MCLCPPLIB_NAMESPACE
 				}
 
 				//STR::value_type('@')
-				STR::value_type version_spliter = STR::value_type(0x40);
+				typename STR::value_type version_spliter = typename STR::value_type(0x40);
 
 				if (version.find(version_spliter) != STR::npos && version[version.find(version_spliter)] == version_spliter)
 				{
