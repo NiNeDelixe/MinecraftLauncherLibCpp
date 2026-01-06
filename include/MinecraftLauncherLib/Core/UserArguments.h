@@ -10,7 +10,7 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	namespace arguments
 	{
-		class UserArguments : public arguments::Arguments
+		class MCLLIB_API UserArguments : public arguments::Arguments
 		{
 		public:
 			void fromUserProfile(const UserProfile& user_info);

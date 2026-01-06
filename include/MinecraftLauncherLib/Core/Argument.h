@@ -17,7 +17,7 @@ namespace MCLCPPLIB_NAMESPACE
 	{
 		namespace arguments
 		{
-			struct Argument
+			struct MCLLIB_API Argument
 			{
 				Argument(const std::u32string& key, std::optional<std::u32string> value)
 					: key(key), value(value) {}

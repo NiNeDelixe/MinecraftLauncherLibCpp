@@ -5,6 +5,7 @@
 #include "MinecraftLauncherLib/MCLLib-api.h"
 
 #include <string>
+#include <vector>
 
 namespace MCLCPPLIB_NAMESPACE
 {
@@ -92,16 +93,17 @@ namespace MCLCPPLIB_NAMESPACE
 			template<typename REPL>
 			MCLLIB_API void replace(REPL& replace, const REPL& from, const REPL& to)
 			{
-				size_t start_pos = 0;
-				size_t found_pos = 0;
-				bool replaced = false;
+				// size_t start_pos = 0;
+				// size_t found_pos = 0;
+				// bool replaced = false;
 				
-				while ((found_pos = replace.find(from, start_pos)) != REPL::npos)
-				{
-				    replace.replace(found_pos, from.length(), to);
-				    start_pos = found_pos + to.length();
-				    replaced = true;
-				}
+				// while ((found_pos = replace.find(from, start_pos)) != REPL::npos)
+				// {
+				//     replace.replace(found_pos, from.length(), to);
+				//     start_pos = found_pos + to.length();
+				//     replaced = true;
+				// }
+				replace<REPL, REPL, REPL>(replace_cont, from, to);
 			}
 
 			/*template<>

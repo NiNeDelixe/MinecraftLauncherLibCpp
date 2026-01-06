@@ -9,7 +9,7 @@
 
 namespace MCLCPPLIB_NAMESPACE
 {
-	class UserProfile
+	class MCLLIB_API UserProfile
 	{
 	public:
 		UserProfile(options::RuntimeOptions options)

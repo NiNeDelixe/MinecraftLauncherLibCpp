@@ -19,12 +19,12 @@ namespace MCLCPPLIB_NAMESPACE
 	{
 		namespace vector
 		{
-			std::vector<std::u32string> generateCommand(const MCLCPPLIB_NAMESPACE::VersionProfile& version_profile,
+			std::vector<std::u32string> MCLLIB_API generateCommand(const MCLCPPLIB_NAMESPACE::VersionProfile& game_profile,
 				const MCLCPPLIB_NAMESPACE::UserProfile& user_profile);
 		}
 		namespace string
 		{
-			std::u32string generateCommand(const MCLCPPLIB_NAMESPACE::VersionProfile& version_profile,
+			std::u32string MCLLIB_API generateCommand(const MCLCPPLIB_NAMESPACE::VersionProfile& game_profile,
 				const MCLCPPLIB_NAMESPACE::UserProfile& user_profile);
 		}
 	}

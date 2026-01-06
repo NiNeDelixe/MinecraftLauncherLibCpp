@@ -18,7 +18,7 @@
 
 namespace MCLCPPLIB_NAMESPACE
 {
-	class VersionProfile
+	class MCLLIB_API VersionProfile
 	{
 	public:
 		VersionProfile(const std::string& version, const options::RuntimeOptions& options);
