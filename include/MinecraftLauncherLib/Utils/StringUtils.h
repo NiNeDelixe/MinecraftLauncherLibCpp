@@ -91,7 +91,7 @@ namespace MCLCPPLIB_NAMESPACE
 			}
 
 			template<typename REPL>
-			MCLLIB_API void replace(REPL& replace, const REPL& from, const REPL& to)
+			MCLLIB_API void replace(REPL& replace_cont, const REPL& from, const REPL& to)
 			{
 				// size_t start_pos = 0;
 				// size_t found_pos = 0;

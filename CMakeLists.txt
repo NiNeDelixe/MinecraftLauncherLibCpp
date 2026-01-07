@@ -1,94 +1,111 @@
-﻿# CMakeList.txt: проект CMake для MinecraftLauncherLib; включите исходный код и определения,
-# укажите здесь логику для конкретного проекта.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 
-set(vcpkg "C:\\Users\\alkor\\source\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake")
-if(NOT CMAKE_TOOLCHAIN_FILE AND EXISTS "${vcpkg}")
-  set(CMAKE_TOOLCHAIN_FILE "${vcpkg}"
-      CACHE FILEPATH "Vcpkg toolchain file")
-  message(STATUS "vcpkg toolchain found: ${CMAKE_TOOLCHAIN_FILE}")
-endif()
-
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "mclauncherlib_tests")
-
-
-# Включение горячей перезагрузки для компиляторов MSVC, если поддерживается.
 if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+    cmake_policy(SET CMP0141 NEW)
+    set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,   RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project ("MinecraftLauncherLib")
+option(MCLLib_BUILD_TESTS "" ON)
 
-# Добавьте источник в исполняемый файл этого проекта.
-add_executable(MinecraftLauncherLib "include/MinecraftLauncherLib.h" "include/MinecraftLauncherLib/VersionProfile.h" "include/MinecraftLauncherLib/UserProfile.h" "include/MinecraftLauncherLib/JavaArguments.h" "test/main.cpp" "include/MinecraftLauncherLib/Argument.h" "include/MinecraftLauncherLib/Types/Vector.h" "include/MinecraftLauncherLib/Utils/Macros.h" "include/MinecraftLauncherLib/Utils/PathUtils.h" "include/MinecraftLauncherLib/Utils/StringUtils.h"  "include/MinecraftLauncherLib/Utils/MemoryUtils.h" "include/MinecraftLauncherLib/Arguments.h" "include/MinecraftLauncherLib/UserArguments.h" "include/MinecraftLauncherLib/Libraries.h" "include/MinecraftLauncherLib/SingleLibrary.h" "src/SingleLibrary.cpp" "include/MinecraftLauncherLib/CommandLine.h" "src/CommandLine.cpp")
-#add_executable(MinecraftLauncherLib "src/MemoryUtils.cpp" "src/PathUtils.cpp" "src/StringUtils.cpp")
+project("MinecraftLauncherLib" VERSION 1.0.1 DESCRIPTION "mylib description")
 
-#target_compile_features(${TARGET_NAME} PRIVATE cxx_std_17)
+set(CMAKE_CXX_STANDARD 17)
 
-#set_property(TARGET tgt PROPERTY CXX_STANDARD 11)
+#linux ls -1 src/*.cpp
+#win dir /b /a-d src\*.cpp 
+add_library(${PROJECT_NAME} 
+# "include/MinecraftLauncherLib.h"
+# "include/MinecraftLauncherLib/VersionProfile.h"
+# "include/MinecraftLauncherLib/UserProfile.h"
+# #"include/MinecraftLauncherLib/JavaArguments.h"
 
-  set_property(TARGET MinecraftLauncherLib PROPERTY CXX_STANDARD 17)
-  #set_property(TARGET MinecraftLauncherLib PROPERTY CXX_STANDARD 17)
-if (CMAKE_VERSION VERSION_GREATER 3.8)
-#else
-endif()
+# #"include/MinecraftLauncherLib/Argument.h"
+# "include/MinecraftLauncherLib/Types/Vector.h"
+# "include/MinecraftLauncherLib/Utils/Macros.h"
+# "include/MinecraftLauncherLib/Utils/PathUtils.h"
+# "include/MinecraftLauncherLib/Utils/StringUtils.h"
+# "include/MinecraftLauncherLib/Utils/MemoryUtils.h"
+# "include/MinecraftLauncherLib/Arguments.h"
+# #"include/MinecraftLauncherLib/UserArguments.h"
+# #"include/MinecraftLauncherLib/Libraries.h"
+# "include/MinecraftLauncherLib/SingleLibrary.h"
+# "include/MinecraftLauncherLib/Basic/MinecraftObject.h"
+# "include/MinecraftLauncherLib/SingleRule.h"
+# "include/MinecraftLauncherLib/Rules.h"
+# "include/MinecraftLauncherLib/Basic/Natives.h"
+# "include/MinecraftLauncherLib/CommandLine.h"
+# "include/MinecraftLauncherLib/Utils/JsonUtils.h"
+# "include/MinecraftLauncherLib/Utils/JavaUtils.h"
 
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
+# "src/SingleLibrary.cpp"
+# #"src/MinecraftObject.cpp"
+# "src/Libraries.cpp"
+# "src/Rules.cpp"
+# #"src/SingleRule.cpp"
+# #"src/Natives.cpp"
+# "src/JsonUtils.cpp"
+# "src/JavaUtils.cpp"
+# "src/Arguments.cpp"
+# "src/CommandLine.cpp" 
+# "src/VersionProfile.cpp"
 
-if(DEFINED CTL_CACHE_LINE_SIZE)
-    message(${CTL_CACHE_LINE_SIZE})
-    add_compile_definitions(CTL_CACHE_LINE_SIZE=${CTL_CACHE_LINE_SIZE})
-endif()
+src/Arguments.cpp
+src/Command.cpp
+src/CommandLine.cpp
+src/DownloadWorker.cpp
+src/FabricDownloader.cpp
+src/ForgeDownloader.cpp
+src/Java.cpp
+src/Libraries.cpp
+src/MemoryUtils.cpp
+src/PathUtils.cpp
+src/Rules.cpp
+src/Setting.cpp
+src/SingleLibrary.cpp
+src/UserArguments.cpp
+src/UserOptions.cpp
+src/VanillaDownloader.cpp
+src/VersionProfile.cpp
+)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER ${CMAKE_SOURCE_DIR}/include/MCLLib-api.h)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include/)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src/)
+
+
+include(GNUInstallDirs)
+
+install(TARGETS ${PROJECT_NAME}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
 
 include_directories(${CMAKE_SOURCE_DIR}/include/)
 include_directories(${CMAKE_SOURCE_DIR}/src/)
 
-enable_testing ()
-set(TESTS StringUtilsTest VersionProfileTest SingleLibraryTest)
-set(TESTS_SOURCE_NAME StringUtils VersionProfile SingleLibrary) 
-
-add_subdirectory(${CMAKE_SOURCE_DIR}/test) 
-
-file(GLOB_RECURSE SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
-
-#add_test (NAME StringUtilsTest COMMAND StringUtilsTest)
-#add_test (NAME VersionProfileTest COMMAND VersionProfileTest)
-
-  #set (TESTS Vector3fTest Vector2fTest) #MovableObjectTest)
+if(MCLLib_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(${CMAKE_SOURCE_DIR}/tests) 
+endif(MCLLib_BUILD_TESTS)
 
 
-foreach (_test ${TESTS})
-  #add_executable (${_test} ${CMAKE_SOURCE_DIR}/test/${_test}.cpp)
-  #target_link_libraries (${_test} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-  add_test (NAME ${_test} COMMAND ${_test})
-  #set_property(TARGET ${_test} PROPERTY CXX_STANDARD 17)
-endforeach ()
-
-#set_property(TARGET VersionProfileTest PROPERTY CXX_STANDARD 17)
-
-
-find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
-include_directories (${CMAKE_SOURCE_DIR}/src
-                     ${CMAKE_SOURCE_DIR}/include
-                     ${Boost_INCLUDE_DIRS}
-                     )
-add_definitions (-DBOOST_TEST_DYN_LINK) 
-
-target_link_libraries (MinecraftLauncherLib
-                       ${Boost_FILESYSTEM_LIBRARY}
-                       ${Boost_SYSTEM_LIBRARY}
-                       ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-                       )
-
-
-
-
-find_package( LibLZMA REQUIRED )
-target_include_directories(MinecraftLauncherLib PRIVATE ${LIBLZMA_INCLUDE_DIRS})
-#target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBLZMA_LIBRARIES})
-
+find_package(LibLZMA REQUIRED)
+find_package(liblzma CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-#target_link_libraries(MinecraftLauncherLib PRIVATE nlohmann_json::nlohmann_json)
+find_package(Boost COMPONENTS locale REQUIRED)
+find_package(curlcpp CONFIG REQUIRED)
+find_package(libzip CONFIG REQUIRED)
+ 
+target_link_libraries(${PROJECT_NAME} 
+    PRIVATE 
+        LibLZMA::LibLZMA
+        liblzma::liblzma
+        nlohmann_json::nlohmann_json
+        curlcpp::curlcpp
+        Boost::locale
+        libzip::zip
+)

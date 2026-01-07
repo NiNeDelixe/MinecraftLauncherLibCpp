@@ -12,7 +12,7 @@ BOOST_AUTO_TEST_CASE(UserOptionsTest1)
 	)"_json;
 
 	//utf doesnt parsing in _json literals
-	options_json["minecraft_directory"] = "C:/—ука\\пидоf\\ffff/f";
+	options_json["minecraft_directory"] = "C:/—П\\—П—П\\ffff/f";
 
 	auto options = MCLCPPLIB_NAMESPACE::options::RuntimeOptions::fromJson(options_json);
 
@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_CASE(UserOptionsTest2)
 	)"_json;
 
 	//utf doesnt parsing in _json literals
-	options_json["minecraft_directory"] = "C:/—ука\\пидоf\\ffff/f";
+	options_json["minecraft_directory"] = "C:/—П\\—П—П\\ffff/f";
 
 	auto options = MCLCPPLIB_NAMESPACE::options::RuntimeOptions::fromJson(options_json);
 

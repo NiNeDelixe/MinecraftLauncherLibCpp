@@ -19,7 +19,7 @@
 
 #if defined(_WIN64) || defined(__x86_64__) || defined(__ppc64__)
 #	define ARCH std::string("x64")
-#elif defined(__APPLE__)
+#elif defined(_WIN32)
 #	define ARCH std::string("x86")
 #endif
 

@@ -45,10 +45,8 @@ nlohmann::json MCLCPPLIB_NAMESPACE::VersionProfile::inheritJson(const nlohmann::
 			return lib.contains("name") ? lib["name"].get<std::string>() : "";
 		};
 
-	nlohmann::json new_data;
-	std::ifstream ifs;
-	ifs.open(path_inh_json);
-	ifs >> new_data;
+	std::ifstream ifs(path_inh_json);
+	nlohmann::json new_data = nlohmann::json::parse(ifs);
 	ifs.close();
 
 	/*std::unordered_map<std::string, bool> original_libs;

@@ -5,6 +5,7 @@
 #include "MinecraftLauncherLib/MCLLib-api.h"
 
 #include <limits>
+#include <memory>
 #include <string>
 #include <vector>
 #include <filesystem>

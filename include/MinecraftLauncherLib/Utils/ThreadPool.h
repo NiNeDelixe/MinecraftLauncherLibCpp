@@ -77,7 +77,7 @@ namespace MCLCPPLIB_NAMESPACE
 								auto it = priorityJobs.begin();
 								jobName = it->first;
 								job = it->second;
-								priorityJobs.erase(it); // Удаляем из списка задач
+								priorityJobs.erase(it); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 							}
 							else if (!jobs.empty()) {
 								job = jobs.front();
@@ -98,7 +98,7 @@ namespace MCLCPPLIB_NAMESPACE
 									job, variable, index, locked, result});
 							}
 						}
-						catch (std::exception& err) {
+						catch (const std::exception& err) {
 							busyWorkers--;
 							if (onJobFailed) {
 								onJobFailed(job);

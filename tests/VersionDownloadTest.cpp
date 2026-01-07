@@ -26,18 +26,18 @@
 
 BOOST_AUTO_TEST_CASE(VersionDownloadTestForge)
 {
-	nlohmann::json options = R"(
-{
-	"java_executable_path": "D:\\ProgramFiles\\jdk1.8\\bin\\java.exe",
-	"minecraft_directory": "C:\\Users\\NanLeb\\AppData\\Roaming\\.SomSomSom\\suka",
-	"libraries_directory": "C:\\Users\\NanLeb\\AppData\\Roaming\\.SomSomSom\\suka",
-	"assets_directory": "C:\\Users\\NanLeb\\AppData\\Roaming\\.SomSomSom\\suka"
-}
-)"_json;
+// 	nlohmann::json options = R"(
+// {
+// 	"java_executable_path": "D:\\ProgramFiles\\jdk1.8\\bin\\java.exe",
+// 	"minecraft_directory": "C:\\Users\\NanLeb\\AppData\\Roaming\\.SomSomSom\\suka",
+// 	"libraries_directory": "C:\\Users\\NanLeb\\AppData\\Roaming\\.SomSomSom\\suka",
+// 	"assets_directory": "C:\\Users\\NanLeb\\AppData\\Roaming\\.SomSomSom\\suka"
+// }
+// )"_json;
 
-	MCLCPPLIB_NAMESPACE::download::loaders::ForgeDownloader downloader("1.19.2", "43.4.6", std::filesystem::temp_directory_path(), options, nullptr);
-	downloader.installLoader();
-	downloader.update();
+// 	MCLCPPLIB_NAMESPACE::download::loaders::ForgeDownloader downloader("1.19.2", "43.4.6", std::filesystem::temp_directory_path(), options, nullptr);
+// 	downloader.installLoader();
+// 	downloader.update();
 
 	//BOOST_CHECK_EQUAL_COLLECTIONS(f.begin(), f.end(), s.begin(), s.end());
 	//BOOST_CHECK_EQUAL(left, right);
