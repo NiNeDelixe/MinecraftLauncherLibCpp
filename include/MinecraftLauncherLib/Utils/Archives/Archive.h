@@ -19,7 +19,7 @@ namespace MCLCPPLIB_NAMESPACE
 	{
 		namespace archives
 		{
-			class Archive
+			class MCLLIB_API Archive
 			{
 			public:
 				explicit Archive(const std::filesystem::path& archive_path, const std::filesystem::path& output_file = "")

@@ -77,7 +77,7 @@ namespace MCLCPPLIB_NAMESPACE
 								auto it = priorityJobs.begin();
 								jobName = it->first;
 								job = it->second;
-								priorityJobs.erase(it); // ������� �� ������ �����
+								priorityJobs.erase(it);
 							}
 							else if (!jobs.empty()) {
 								job = jobs.front();

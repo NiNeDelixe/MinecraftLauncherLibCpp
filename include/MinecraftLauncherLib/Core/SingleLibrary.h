@@ -12,7 +12,7 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	namespace libraries
 	{
-		class SingleLibrary
+		class MCLLIB_API SingleLibrary
 		{
 		public:
 			SingleLibrary(const std::filesystem::path& lib_path);

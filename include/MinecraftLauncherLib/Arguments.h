@@ -3,7 +3,7 @@
 
 #include "MCLLib-api.h"
 
-#include "MinecraftLauncherLib/Argument.h"
+#include "MinecraftLauncherLib/Core/Argument.h"
 
 namespace MCLCPPLIB_NAMESPACE
 {

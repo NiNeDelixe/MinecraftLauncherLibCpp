@@ -17,7 +17,7 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	namespace command
 	{
-		class Command
+		class MCLLIB_API Command
 		{
 		public:
 			Command(const std::filesystem::path& minecraft_directory)

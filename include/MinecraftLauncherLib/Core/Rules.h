@@ -14,7 +14,7 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	namespace rules
 	{
-		class Rules
+		class MCLLIB_API Rules
 		{
 		public:
 			Rules() = default;

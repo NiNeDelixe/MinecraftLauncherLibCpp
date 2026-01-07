@@ -19,7 +19,7 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	namespace java
 	{
-		class Java
+		class MCLLIB_API Java
 		{
 		public:
 			Java() = default;

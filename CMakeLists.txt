@@ -14,41 +14,6 @@ set(CMAKE_CXX_STANDARD 17)
 #linux ls -1 src/*.cpp
 #win dir /b /a-d src\*.cpp 
 add_library(${PROJECT_NAME} 
-# "include/MinecraftLauncherLib.h"
-# "include/MinecraftLauncherLib/VersionProfile.h"
-# "include/MinecraftLauncherLib/UserProfile.h"
-# #"include/MinecraftLauncherLib/JavaArguments.h"
-
-# #"include/MinecraftLauncherLib/Argument.h"
-# "include/MinecraftLauncherLib/Types/Vector.h"
-# "include/MinecraftLauncherLib/Utils/Macros.h"
-# "include/MinecraftLauncherLib/Utils/PathUtils.h"
-# "include/MinecraftLauncherLib/Utils/StringUtils.h"
-# "include/MinecraftLauncherLib/Utils/MemoryUtils.h"
-# "include/MinecraftLauncherLib/Arguments.h"
-# #"include/MinecraftLauncherLib/UserArguments.h"
-# #"include/MinecraftLauncherLib/Libraries.h"
-# "include/MinecraftLauncherLib/SingleLibrary.h"
-# "include/MinecraftLauncherLib/Basic/MinecraftObject.h"
-# "include/MinecraftLauncherLib/SingleRule.h"
-# "include/MinecraftLauncherLib/Rules.h"
-# "include/MinecraftLauncherLib/Basic/Natives.h"
-# "include/MinecraftLauncherLib/CommandLine.h"
-# "include/MinecraftLauncherLib/Utils/JsonUtils.h"
-# "include/MinecraftLauncherLib/Utils/JavaUtils.h"
-
-# "src/SingleLibrary.cpp"
-# #"src/MinecraftObject.cpp"
-# "src/Libraries.cpp"
-# "src/Rules.cpp"
-# #"src/SingleRule.cpp"
-# #"src/Natives.cpp"
-# "src/JsonUtils.cpp"
-# "src/JavaUtils.cpp"
-# "src/Arguments.cpp"
-# "src/CommandLine.cpp" 
-# "src/VersionProfile.cpp"
-
 src/Arguments.cpp
 src/Command.cpp
 src/CommandLine.cpp
@@ -99,6 +64,9 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Boost COMPONENTS locale REQUIRED)
 find_package(curlcpp CONFIG REQUIRED)
 find_package(libzip CONFIG REQUIRED)
+
+set(NBT_BUILD_TESTS OFF)
+add_subdirectory(thirdparty/libnbtplusplus)
  
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE 
@@ -108,4 +76,5 @@ target_link_libraries(${PROJECT_NAME}
         curlcpp::curlcpp
         Boost::locale
         libzip::zip
+        nbt++
 )

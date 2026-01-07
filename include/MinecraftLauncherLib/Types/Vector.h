@@ -75,11 +75,11 @@ namespace MCLCPPLIB_NAMESPACE
 	namespace types
 	{
 		template<typename T>
-		class MCLLibVector
+		class MCLLIB_API MCLLibVector
 		{
         private:
             template <typename ITERATOR>
-            class Iterator {
+            class MCLLIB_API Iterator {
                 friend class MCLLibVector;
 
             public:
@@ -165,10 +165,10 @@ namespace MCLCPPLIB_NAMESPACE
             void reallocate(size_t new_capacity) {
                 T* new_data = static_cast<T*>(::operator new(new_capacity * sizeof(T)));
                 for (size_t i = 0; i < m_size; ++i) {
-                    new (new_data + i) T(std::move(data[i])); // Перемещаем существующие элементы
-                    data[i].~T(); // Вызываем деструкторы для старых объектов
+                    new (new_data + i) T(std::move(data[i]));
+                    data[i].~T();
                 }
-                ::operator delete(data); // Освобождаем старую память
+                ::operator delete(data);
                 data = new_data;
                 m_capacity = new_capacity;
             }

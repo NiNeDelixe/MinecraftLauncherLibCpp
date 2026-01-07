@@ -21,7 +21,7 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	namespace libraries
 	{
-		class Libraries
+		class MCLLIB_API Libraries
 		{
 		public:
 			Libraries(const std::filesystem::path& minecraft_dir);

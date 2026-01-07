@@ -22,7 +22,7 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	namespace options
 	{
-		struct RuntimeOptions
+		struct MCLLIB_API RuntimeOptions
 		{
 		private:
 			RuntimeOptions() = default;
@@ -80,7 +80,7 @@ namespace MCLCPPLIB_NAMESPACE
 			utils::settings::StringSetting launcher_version = { "null" };
 		};
 
-		class ProcessOptions
+		class MCLLIB_API ProcessOptions
 		{
 		public:
 			//std::filesystem::path ;

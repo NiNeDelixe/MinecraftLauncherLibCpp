@@ -22,7 +22,7 @@ namespace MCLCPPLIB_NAMESPACE
 {
 	namespace arguments
 	{
-		class Arguments
+		class MCLLIB_API Arguments
 		{
 		public:
 			static Arguments getArgumentsFromJson(const nlohmann::json& data, const nlohmann::json& versionData, const UserProfile& profile, const types::Vector<std::filesystem::path>& libraries_paths);
