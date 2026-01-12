@@ -9,7 +9,7 @@
 #include <codecvt>
 #include <string>
 
-#include <boost/locale.hpp>
+#include <boost/locale/encoding.hpp>
 
 namespace MCLCPPLIB_NAMESPACE
 {
